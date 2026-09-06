@@ -9,7 +9,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ MainForm.cs (UI Layer)                                          │
+│ MainForm.vb (UI Layer)                                          │
 │  - อ่าน App.config มา prefill ช่อง Spreadsheet ID                │
 │  - ส่ง input ให้ ProductValidator ตรวจก่อนยิง API ทุกครั้ง         │
 │  - error: status bar + dialog พร้อม icon                           │
@@ -19,20 +19,20 @@
 └──────────────┬──────────────────────────────────────────────────┘
                │ เรียกผ่าน
 ┌──────────────▼──────────────────────────────────────────────────┐
-│ ProductRepository.cs (Business Logic)                           │
+│ ProductRepository.vb (Business Logic)                           │
 │  - GetAllAsync / AddAsync / SaveAllAsync                         │
 │  - รัน ID, เขียนหัวตารางเมื่อชีตว่าง, ตัดสินเคลียร์หรือเขียนทับ        │
 │  - ไม่รู้จัก Google เลย — รู้จักแค่ ISheetService                 │
 └──────────────┬──────────────────────────────────────────────────┘
                │ เรียกผ่าน
 ┌──────────────▼──────────────────────────────────────────────────┐
-│ ISheetService.cs (Abstraction — 4 เมธอด)                         │
+│ ISheetService.vb (Abstraction — 4 เมธอด)                         │
 │  GetValuesAsync / UpdateValuesAsync / AppendValuesAsync /        │
 │  ClearValuesAsync                                                │
 └───────┬──────────────────────────────────┬──────────────────────┘
         │ ตอนรันจริง                        │ ตอนเทส
 ┌───────▼──────────────────────┐  ┌───────▼─────────────────────┐
-│ GoogleSheetService.cs        │  │ FakeSheetService.cs         │
+│ GoogleSheetService.vb        │  │ FakeSheetService.vb         │
 │  - โหลด JSON key → Google-   │  │  - คืนแถวที่เทสส่งมาให้       │
 │    Credential → scoped       │  │  - จด range/value ทุก call  │
 │    spreadsheets              │  │    ไว้ใน List สาธารณะ        │
@@ -52,19 +52,19 @@
 
 | ไฟล์ | ความรับผิดชอบ | จุดที่น่ารู้ |
 | --- | --- | --- |
-| `Program.cs` | จุดเริ่มแอป | เปิด `Tls12` ก่อนขึ้น UI เพราะ endpoint ของ Google บังคับ TLS 1.2 (แก้ปัญหา Windows เก่า) |
-| `MainForm.cs` | หน้าจอ + event ทุกปุ่ม | `_products` เป็น `BindingList<Product>` bind ตรงเข้า DataGridView แก้เซลล์ = แก้ใน list |
-| `Services/ISheetService.cs` | interface 4 เมธอด | จุดเยื้อง (seam) ที่ทำให้เทสได้ |
-| `Services/GoogleSheetService.cs` | ตัวจริงคุยกับ Google | `IDisposable` — ปิด `SheetsService` ทุกครั้งที่จบปุ่ม |
-| `Services/ProductRepository.cs` | โลจิกทั้งหมด | ค่า `HeaderCells = { "ID", "Name", "Quantity", "Price" }` อยู่ที่นี่ |
-| `Services/ProductFilter.cs` | กฎค้นหาของกริด | static class: ID ตรงเป๊ะ หรือชื่อมีคำ (OrdinalIgnoreCase) |
-| `Services/ProductPager.cs` | คณิตแบ่งหน้าของกริด | static class: `TotalPages` / `ClampPage` / `Slice` — กริดแสดงแค่หน้าเดียว แต่ Save/Edit/Delete ยังใช้ข้อมูลเต็ม |
-| `Services/SheetRowMapper.cs` | แปลงแถว ↔ Product | static class ไม่มี state |
-| `Validation/ProductValidator.cs` | กฎ input ทั้งหมดของแอป | static class ไม่มี UI type — `ParseAppendInput` (ฟอร์ม) กับ `ValidateForSave` (กริดก่อนเขียน) |
-| `Validation/ValidationResult.cs` | กอง failures ของการตรวจหนึ่งรอบ | `ToDialogText()` จัดข้อความรวมเป็นบูลเล็ตพร้อมโชว์ใน dialog |
-| `Validation/ValidationFailure.cs` | 1 จุดที่พัง | `Field` = ชื่อช่อง หรือ "Row N" |
-| `Validation/ProductInputResult.cs` | ผล parse ฟอร์ม append | มีทั้ง failures และค่าที่ parse ผ่านแล้ว (Name/Quantity/Price) |
-| `Models/Product.cs` | โมเดล 1 แถว | `Price` เป็น `decimal` (เหมาะกับเงิน) ที่เหลือ `int`/`string` |
+| `Program.vb` | จุดเริ่มแอป | เปิด `Tls12` ก่อนขึ้น UI เพราะ endpoint ของ Google บังคับ TLS 1.2 (แก้ปัญหา Windows เก่า) |
+| `MainForm.vb` | หน้าจอ + event ทุกปุ่ม | `_products` เป็น `BindingList<Product>` bind ตรงเข้า DataGridView แก้เซลล์ = แก้ใน list |
+| `Services/ISheetService.vb` | interface 4 เมธอด | จุดเยื้อง (seam) ที่ทำให้เทสได้ |
+| `Services/GoogleSheetService.vb` | ตัวจริงคุยกับ Google | `IDisposable` — ปิด `SheetsService` ทุกครั้งที่จบปุ่ม |
+| `Services/ProductRepository.vb` | โลจิกทั้งหมด | ค่า `HeaderCells = { "ID", "Name", "Quantity", "Price" }` อยู่ที่นี่ |
+| `Services/ProductFilter.vb` | กฎค้นหาของกริด | VB Module: ID ตรงเป๊ะ หรือชื่อมีคำ (OrdinalIgnoreCase) |
+| `Services/ProductPager.vb` | คณิตแบ่งหน้าของกริด | VB Module: `TotalPages` / `ClampPage` / `Slice` — กริดแสดงแค่หน้าเดียว แต่ Save/Edit/Delete ยังใช้ข้อมูลเต็ม |
+| `Services/SheetRowMapper.vb` | แปลงแถว ↔ Product | VB Module ไม่มี state |
+| `Validation/ProductValidator.vb` | กฎ input ทั้งหมดของแอป | VB Module ไม่มี UI type — `ParseAppendInput` (ฟอร์ม) กับ `ValidateForSave` (กริดก่อนเขียน) |
+| `Validation/ValidationResult.vb` | กอง failures ของการตรวจหนึ่งรอบ | `ToDialogText()` จัดข้อความรวมเป็นบูลเล็ตพร้อมโชว์ใน dialog |
+| `Validation/ValidationFailure.vb` | 1 จุดที่พัง | `Field` = ชื่อช่อง หรือ "Row N" |
+| `Validation/ProductInputResult.vb` | ผล parse ฟอร์ม append | มีทั้ง failures และค่าที่ parse ผ่านแล้ว (Name/Quantity/Price) |
+| `Models/Product.vb` | โมเดล 1 แถว | `Price` เป็น `decimal` (เหมาะกับเงิน) ที่เหลือ `int`/`string` |
 | `App.config` | ค่าตั้ง 3 ตัว | `SpreadsheetId`, `GoogleCredentialsPath`, `SheetName` |
 
 ## Data Flow ทีละปุ่ม
@@ -72,7 +72,7 @@
 ### กด Load
 
 ```
-btnLoad_Click (MainForm.cs:39)
+btnLoad_Click (MainForm.vb:39)
  ├─ CreateSheetService()            เช็กไฟล์ credentials + ช่อง ID ว่างหรือไม่
  ├─ new ProductRepository(service, SheetName)
  └─ repository.GetAllAsync()
@@ -87,14 +87,14 @@ btnLoad_Click (MainForm.cs:39)
 ### กด Append Row
 
 ```
-btnAppend_Click (MainForm.cs:58)
+btnAppend_Click (MainForm.vb:58)
  ├─ ProductValidator.ParseAppendInput(name, qtyText, priceText)
  │   ├─ Name: บังคับกรอก, trim, ≤ 100 ตัวอักษร
  │   ├─ Quantity: บังคับกรอก, ต้องเป็นเลขจำนวนเต็ม, 0 - 1,000,000,000
  │   ├─ Price: บังคับกรอก, ต้องเป็นตัวเลข, 0 - 99,999,999.99
  │   └─ พังจุดไหนรายงานครบทุกจุดในรอบเดียว (ไม่หยุดที่ failure แรก)
  ├─ ไม่ผ่าน → dialog ⚠ "Cannot append row" + รายการทุกจุด → หยุด (ไม่ยิง API)
- └─ repository.AddAsync(product)  (ProductRepository.cs:43)
+ └─ repository.AddAsync(product)  (ProductRepository.vb:43)
      ├─ GetAllAsync()                 อ่านของเดิมมาก่อน "ทุกครั้ง"
      ├─ nextId = แถวว่าง ? 1 : max(ID)+1
      ├─ ถ้าชีตว่าง → UPDATE "ชีต1!A1" ด้วยหัวตาราง ID|Name|Quantity|Price ก่อน 1 แถว
@@ -109,13 +109,13 @@ ID เหล่านั้นไม่ถูกนับ อาจได้ ID 
 ### กด Save Changes
 
 ```
-btnSave_Click (MainForm.cs:97)
+btnSave_Click (MainForm.vb:97)
  ├─ dataGridView.EndEdit()           ปิดการแก้เซลล์ที่ค้างอยู่ให้ commit ลง list ก่อน
  ├─ snapshot _products เป็น List
  ├─ ProductValidator.ValidateForSave(products)
  │   ├─ ทุกแถว: ID ≥ 1, ชื่อไม่ว่าง (≤100), Quantity/Price ในช่วงเดียวกับฟอร์ม
  │   └─ พัง → dialog ⚠ "Cannot save changes" ระบุ "Row N: เหตุผล" ทุกแถว → หยุด (ไม่ยิง API)
- └─ repository.SaveAllAsync(products)  (ProductRepository.cs:69)
+ └─ repository.SaveAllAsync(products)  (ProductRepository.vb:69)
      ├─ รายการว่าง → CLEAR "ชีต1!A2:D"      (ลบข้อมูลแต่เก็บหัวตารางไว้)
      └─ มีข้อมูล  → UPDATE "ชีต1!A2:D"       เขียนทับทั้งบล็อกด้วยแถวจากกริด
  └─ status: "Saved N row(s)."
@@ -228,11 +228,11 @@ ApplyFilter() ทุกครั้ง:
 
 - ทุกตัวเลข format ด้วย **`CultureInfo.InvariantCulture`** เสมอ → ชีตจะเห็น `1234.5` ไม่ว่าเครื่องจะตั้ง locale อะไร
 - `Name` เป็น null → เขียนเป็นสตริงว่าง
-- ปุ่ม Append ฝั่งฟอร์มใช้กฎ parse เดียวกัน (`ParseIntOrDefault` / `ParseDecimalOrDefault` ใน MainForm.cs:176-202)
+- ปุ่ม Append ฝั่งฟอร์มใช้กฎ parse เดียวกัน (`ParseIntOrDefault` / `ParseDecimalOrDefault` ใน MainForm.vb:176-202)
 
 ## ลำดับการค้นหาไฟล์ credentials
 
-`MainForm.ResolveCredentialsPath` (MainForm.cs:137) — ถ้าค่าใน App.config เป็น relative path (default: `credentials.json`):
+`MainForm.ResolveCredentialsPath` (MainForm.vb:137) — ถ้าค่าใน App.config เป็น relative path (default: `credentials.json`):
 
 1. `bin\Debug\credentials.json` (โฟลเดอร์ exe — csproj set **Copy to Output Directory** ไว้แล้ว)
 2. โฟลเดอร์ current working directory
