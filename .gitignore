@@ -1,0 +1,22 @@
+## Build outputs
+bin/
+obj/
+
+## NuGet
+packages/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+
+## Google service account key - never commit this
+credentials.json
+credentials.json.example
+
+## Test + automation artifacts
+TestResults/
+tools/ui-check/
+tools/ConnectTest.exe
+tools/ConnectTest.pdb
+_btn_*.png
