@@ -1,6 +1,6 @@
-﻿# Google Sheets Demo (C# WinForms + Visual Studio Community 2017)
+﻿# Google Sheets Demo (VB.NET WinForms + Visual Studio Community 2017)
 
-แอป Windows Forms ตัวอย่างสำหรับ **อ่าน / เขียน / แก้ไข / ลบ / ค้นหา Google Sheets** ผ่าน Google Sheets API v4
+แอป **VB.NET** Windows Forms ตัวอย่างสำหรับ **อ่าน / เขียน / แก้ไข / ลบ / ค้นหา Google Sheets** ผ่าน Google Sheets API v4
 รันบน .NET Framework 4.6.1 พร้อม unit test (MSTest V2) 58 เคส ที่รันได้จาก Test Explorer ของ VS2017
 โดย**ไม่ต้องต่ออินเทอร์เน็ตและไม่ต้องมี credentials** — input ทุกอย่างผ่านชั้น Validation แยกจาก UI
 (แนว clean architecture) และ error ทุกประเภทแสดงเป็น dialog พร้อม icon
@@ -72,32 +72,32 @@ MainForm (UI, async) ──> ProductValidator (กฎ input)      ── คื�
 ```
 GoogleSheetsDemo.sln
 ├── src/GoogleSheetsDemo/            แอป WinForms (.NET Framework 4.6.1)
-│   ├── Program.cs                   จุดเริ่ม — เปิด TLS 1.2 ก่อนขึ้น UI
-│   ├── MainForm.cs / .Designer.cs   หน้าจอหลัก (ช่อง ID + ตาราง + ปุ่ม 3 ปุ่ม + status bar)
+│   ├── Program.vb                   จุดเริ่ม — เปิด TLS 1.2 ก่อนขึ้น UI
+│   ├── MainForm.vb / .Designer.vb   หน้าจอหลัก (ช่อง ID + ตาราง + ปุ่ม 3 ปุ่ม + status bar)
 │   ├── Services/
-│   │   ├── ISheetService.cs         interface ห่อ API (จุดต่อสำหรับเทส)
-│   │   ├── GoogleSheetService.cs    ตัวจริง (service account + Sheets API v4)
-│   │   ├── ProductRepository.cs     โลจิกอ่าน/เพิ่ม/เขียนทับ (รัน ID ที่นี่)
-│   │   ├── ProductFilter.cs         กฎค้นหา (ID ตรง หรือชื่อมีคำ — เทสได้)
-│   │   ├── ProductPager.cs          คณิตแบ่งหน้า (TotalPages/ClampPage/Slice — เทสได้)
-│   │   └── SheetRowMapper.cs        แปลงแถวชีต ↔ object
+│   │   ├── ISheetService.vb         interface ห่อ API (จุดต่อสำหรับเทส)
+│   │   ├── GoogleSheetService.vb    ตัวจริง (service account + Sheets API v4)
+│   │   ├── ProductRepository.vb     โลจิกอ่าน/เพิ่ม/เขียนทับ (รัน ID ที่นี่)
+│   │   ├── ProductFilter.vb         กฎค้นหา (ID ตรง หรือชื่อมีคำ — เทสได้)
+│   │   ├── ProductPager.vb          คณิตแบ่งหน้า (TotalPages/ClampPage/Slice — เทสได้)
+│   │   └── SheetRowMapper.vb        แปลงแถวชีต ↔ object
 │   ├── Validation/                  กฎ input ทั้งหมด — แยกจาก UI (เทสได้)
-│   │   ├── ProductValidator.cs      ตรวจฟอร์ม append + แถวก่อน save
-│   │   ├── ValidationResult.cs      กอง failures + จัดข้อความสำหรับ dialog
-│   │   ├── ValidationFailure.cs     1 จุดที่พัง (field/row + เหตุผล)
-│   │   └── ProductInputResult.cs    ผล parse ฟอร์ม (ค่าที่ parse ได้ + failures)
-│   ├── Models/Product.cs            1 แถวของชีต: Id, Name, Quantity, Price(decimal)
+│   │   ├── ProductValidator.vb      ตรวจฟอร์ม append + แถวก่อน save
+│   │   ├── ValidationResult.vb      กอง failures + จัดข้อความสำหรับ dialog
+│   │   ├── ValidationFailure.vb     1 จุดที่พัง (field/row + เหตุผล)
+│   │   └── ProductInputResult.vb    ผล parse ฟอร์ม (ค่าที่ parse ได้ + failures)
+│   ├── Models/Product.vb            1 แถวของชีต: Id, Name, Quantity, Price(decimal)
 │   ├── App.config                   SpreadsheetId / GoogleCredentialsPath / SheetName
 │   └── credentials.json             (ไม่ commit — สร้างเองตาม docs/01, ดูโครงสร้างใน docs นั้น)
 ├── tests/GoogleSheetsDemo.Tests/    MSTest V2 — 59 เคส
-│   ├── FakeSheetService.cs          test double: จำ range/value ทุก call ที่ถูกเรียก
-│   ├── ProductRepositoryTests.cs    6 เคส (โลจิกรัน ID, หัวตาราง, range ที่เขียน)
-│   ├── SheetRowMapperTests.cs       10 เคส (parsing, ข้ามแถวเพี้ยน, invariant culture)
-│   ├── ProductValidatorTests.cs     17 เคส (กฎ input ฟอร์ม + กฎแถวก่อน save)
-│   ├── ProductFilterTests.cs        11 เคส (กฎค้นหา: ID/ชื่อ/ตัวพิมพ์/ลำดับ)
-│   ├── ProductPagerTests.cs         14 เคส (จำนวนหน้า, clamp, slice ทุกขอบ)
-│   └── TestRows.cs                  helper สร้างแถวดิบในเทส
-├── tools/ConnectTest.cs (+ .exe)    โปรแกรมคอนโซลยิง API จริงเพื่อดู error เต็ม ๆ
+│   ├── FakeSheetService.vb          test double: จำ range/value ทุก call ที่ถูกเรียก
+│   ├── ProductRepositoryTests.vb    6 เคส (โลจิกรัน ID, หัวตาราง, range ที่เขียน)
+│   ├── SheetRowMapperTests.vb       10 เคส (parsing, ข้ามแถวเพี้ยน, invariant culture)
+│   ├── ProductValidatorTests.vb     17 เคส (กฎ input ฟอร์ม + กฎแถวก่อน save)
+│   ├── ProductFilterTests.vb        11 เคส (กฎค้นหา: ID/ชื่อ/ตัวพิมพ์/ลำดับ)
+│   ├── ProductPagerTests.vb         14 เคส (จำนวนหน้า, clamp, slice ทุกขอบ)
+│   └── TestRows.vb                  helper สร้างแถวดิบในเทส
+├── tools/ConnectTest.vb (+ .exe)    โปรแกรมคอนโซลยิง API จริงเพื่อดู error เต็ม ๆ
 ├── docs/                            เอกสารลึกรายหัวข้อ
 └── packages/                        NuGet (pin Google.Apis 1.55 — ดูหมายเหตุด้านล่าง)
 ```
@@ -279,7 +279,7 @@ tools\ConnectTest.exe <credentials.json> <spreadsheetId> <range>
 1. แชร์ชีต (ID ข้างบน) ให้ `msl-sheet-demo@midseelee.iam.gserviceaccount.com` เป็น Editor → แก้ 403
 2. เปลี่ยน `SheetName` ใน App.config `Sheet1` → `ชีต1` (แท็บจริงของชีต) → แก้ Unable to parse range
 3. ตั้งชื่อเอกสารชีตเป็น "GoogleSheetsDemo" (Google บังคับตอนกดแชร์เองก็ต้องตั้ง)
-4. เพิ่ม `tools/ConnectTest.cs` เครื่องมือวินิจฉัย + เอกสารครบชุดใน `docs/`
+4. เพิ่ม `tools/ConnectTest.vb` เครื่องมือวินิจฉัย + เอกสารครบชุดใน `docs/`
 
 **6 ก.ย. 2026 (รอบสอง)** — เพิ่ม validation + ปรับ UI:
 1. ชั้น `Validation/` ใหม่ (`ProductValidator` + `ValidationResult`) แยกกฎ input ออกจาก UI — เทสได้เต็มรูปแบบ (+17 เทส รวมเป็น 33)
@@ -289,7 +289,7 @@ tools\ConnectTest.exe <credentials.json> <spreadsheetId> <range>
 5. หน้าตาใหม่: ฟอนต์ Segoe UI, ปุ่มสีตามบทบาท (Load/Append/Save), หัวตารางน้ำเงิน + แถวสลับสี, ปรับขนาดหน้าต่างได้
 
 **6 ก.ย. 2026 (รอบสาม)** — เพิ่ม edit / delete / search:
-1. ชั้น `Services/ProductFilter.cs` กฎค้นหา (ID ตรงเป๊ะ หรือชื่อมีคำ ไม่สนตัวพิมพ์) + เทส 11 เคส (รวมเป็น 44)
+1. ชั้น `Services/ProductFilter.vb` กฎค้นหา (ID ตรงเป๊ะ หรือชื่อมีคำ ไม่สนตัวพิมพ์) + เทส 11 เคส (รวมเป็น 44)
 2. **Edit** — คลิกไอคอน ✏ ท้ายแถว หรือดับเบิลคลิกแถว: โหลดค่าเดิมลงฟอร์ม ปุ่มกลายเป็น Update Row (+ Cancel Edit) ผ่าน validator แล้วเขียนลงชีตทันที
 3. **Delete** — คลิกไอคอน 🗑 ท้ายแถว: dialog ยืนยัน (icon ⚠) แล้วเขียนลงชีตทันที
 4. **Search**: กรองสดขณะพิมพ์ ระหว่างกรองกริด read-only กันแก้ข้อมูลผ่านมุมมองที่ไม่ครบ
@@ -297,7 +297,7 @@ tools\ConnectTest.exe <credentials.json> <spreadsheetId> <range>
 
 **6 ก.ย. 2026 (รอบสี่)** — ปุ่ม enable/disable ครบ + Pagination:
 1. `UpdateButtonStates()` จุดคุมสถานะเดียว: ปิดทุกปุ่มตอน busy, Edit/Delete ปิดเมื่อไม่มีแถวเลือก, Save ปิดจนกว่าจะมีข้อมูลโหลด/เพิ่มแล้ว (กันเคลียร์ชีตเปล่าโดยไม่ตั้งใจ)
-2. ชั้น `Services/ProductPager.cs` + เทส 14 เคส (รวมเป็น 58) — TotalPages / ClampPage / Slice
+2. ชั้น `Services/ProductPager.vb` + เทส 14 เคส (รวมเป็น 58) — TotalPages / ClampPage / Slice
 3. แถบ pager ใต้ตาราง: Prev/Next (ปิดเองเมื่ออยู่หน้าแรก/สุดท้าย), ป้าย "Page X of Y - N row(s)", เลือกแถวต่อหน้า 2/5/10/25/50/100
 4. เพจเลขใหม่ตอนกด Append (เลื่อนไปหน้าสุดท้ายให้เห็นแถวใหม่), ค้นหาใหม่เริ่มหน้า 1, Save/Edit/Delete ทำงานกับข้อมูลเต็มเสมอข้ามทุกหน้า
 
@@ -306,3 +306,10 @@ tools\ConnectTest.exe <credentials.json> <spreadsheetId> <range>
 2. ธีมย้ายไปเก็บไฟล์ `GoogleSheetsDemo.theme` (UTF-8) — ไม่เขียน .config อีก ภาษาไทยปลอดภัย
 3. `RelayoutLowerArea()`: pager/กริด/กล่องแก้ไขเรียงกันไม่ทับกันทุกขนาดหน้าต่าง + MinimumSize 916
 4. ปุ่ม **Edit / Delete รายแถว** ทางขวาของตาราง (นอกจากปุ่ม toolbar เดิม) + ปุ่มสลับธีมมุมมนสไตล์เดียวกับปุ่มอื่น
+
+**6 ก.ย. 2026 (รอบหก)** — ย้ายภาษาทั้งโปรเจกต์ C# → **VB.NET**:
+1. ซอร์สทุกไฟล์ .cs เขียนใหม่เป็น .vb (แอป + เทส + tools/ConnectTest) — โครงสร้างโฟลเดอร์, namespace (`GoogleSheetsDemo.Services` / `.Validation` / `.Theme` / `.Controls`), ชื่อคลาส/เมธอด และพฤติกรรมทุกอย่างเหมือนเดิม
+2. ไฟล์โปรเจกต์เปลี่ยนเป็น `.vbproj` (Microsoft.VisualBasic.targets, GUID ชนิดโปรเจกต์ VB ใน .sln) — เวอร์ชันแพ็กเกจ NuGet เดิมทั้งหมด (Google.Apis 1.55 pin เหมือนเดิม)
+3. WinForms ใช้สไตล์ VB แบบ idiomatic: `Handles` clauses แทนการผูก event ใน constructor, Designer file แบบ `DesignerGenerated` + `Friend WithEvents`
+4. เทส MSTest 58 เคสย้ายครบ 1:1 (async Task tests รวมอยู่) — ต้องรันยืนยันผ่าน Test Explorer / vstest.console.exe บนเครื่อง Windows ก่อน merge เหมือนเดิม
+5. `App.config`, `MainForm.resx`, ขั้นตอน Google Cloud setup และวิธีใช้ทุกอย่างไม่เปลี่ยน
