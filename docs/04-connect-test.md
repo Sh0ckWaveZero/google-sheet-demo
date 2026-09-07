@@ -86,20 +86,20 @@ Requested entity was not found. [404]
 
 ## หากต้องแก้/คอมไพล์ใหม่
 
-ซอร์สอยู่ที่ `tools\ConnectTest.cs` (โหลด `GoogleSheetService` จาก `bin\Debug\GoogleSheetsDemo.exe`
+ซอร์สอยู่ที่ `tools\ConnectTest.vb` (โหลด `GoogleSheetService` จาก `bin\Debug\GoogleSheetsDemo.exe`
 ผ่าน reflection — แก้ logic ของแอปแล้วตัวนี้ใช้ตัวใหม่ทันทีหลัง build)
 
-คอมไพล์ด้วย C# compiler ที่มีในเครื่องทุกเครื่องที่ลง .NET Framework:
+คอมไพล์ด้วย VB compiler (vbc.exe) ที่มีในเครื่องทุกเครื่องที่ลง .NET Framework:
 
 ```bat
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe -nologo -out:tools\ConnectTest.exe ^
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\vbc.exe -nologo -out:tools\ConnectTest.exe ^
   -r:src\GoogleSheetsDemo\bin\Debug\Google.Apis.dll ^
   -r:src\GoogleSheetsDemo\bin\Debug\Google.Apis.Auth.dll ^
   -r:src\GoogleSheetsDemo\bin\Debug\Google.Apis.Core.dll ^
   -r:src\GoogleSheetsDemo\bin\Debug\Google.Apis.Sheets.v4.dll ^
   -r:src\GoogleSheetsDemo\bin\Debug\Newtonsoft.Json.dll ^
-  tools\ConnectTest.cs
+  tools\ConnectTest.vb
 ```
 
-> คอมไพเลอร์ตัวนี้รองรับแค่ C# 5 — ห้ามใช้ syntax ใหม่ เช่น `?.`, string interpolation `$""`
-> (ถ้าจะแก้ไฟล์นี้ ดูตัวอย่างการเขียนแบบ C# 5 ในไฟล์เดิมได้เลย)
+> vbc ตัวนี้รองรับ VB 10 — ห้ามใช้ syntax ใหม่ เช่น `?.`, string interpolation `$""`
+> (ถ้าจะแก้ไฟล์นี้ ดูตัวอย่างการเขียนแบบ VB ในไฟล์เดิมได้เลย)
